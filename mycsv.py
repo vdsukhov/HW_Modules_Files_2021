@@ -21,9 +21,5 @@ def write_csv(path_to_csv_file, data, delimiter=","):
         with open(path_to_csv_file, 'w') as out_f:
             for lst in data:
                 out_f.writelines((delimiter.join(lst)) + "\n")
-    except TypeError:
-         print("Error, such keyword argument doesn't exist")
-    except AttributeError:
-        print("Error, such attribute in mycsv module doesn't exist")
-    except NameError:
-        print("Error, such name is not defined")
+    except Exception:
+        print("Error, couldn't complete your command")
