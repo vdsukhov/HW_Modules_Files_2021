@@ -19,7 +19,13 @@ def read_csv(path_to_csv_file, delimiter=","):
 def write_csv(path_to_csv_file, data, delimiter=","):
     try:
         with open(path_to_csv_file, 'w') as out_f:
+            ans=[]
             for lst in data:
-                out_f.writelines((delimiter.join(lst)) + "\n")
+                for el in lst:
+                    if "." in el or "," in el:
+                        lst=[delimiter.join(['"' + el + '"' if "." in el or "," in el else el for el in lst])]
+                ans.append(lst)
+            for lst in ans:
+                 out_f.writelines((delimiter.join(lst)) + "\n")
     except Exception:
         print("Error, couldn't complete your command")
