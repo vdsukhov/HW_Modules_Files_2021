@@ -46,5 +46,6 @@ def parse(file_path):
                         value += fasta_list[j]
                     elif fasta_list[j][0] == ">":
                         break
+                key =key.replace(">", "")
                 dic[key] = value
         print(dic)
