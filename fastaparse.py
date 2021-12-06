@@ -29,7 +29,6 @@ dna_codon = {'TTT':'F' , 'TTC':'F' , 'TTA':'L' , 'TTG':'L' ,
          'GAT':'D' ,'GAC':'D' ,'GAA':'E' ,
         'GAG':'E' ,'GGT':'G' ,'GGC':'G' ,'GGA':'G' ,'GGG':'G' }
 
-
 def parse(file_path):
     dic = {}
     fasta_list = []
@@ -48,7 +47,7 @@ def parse(file_path):
                         break
                 key =key.replace(">", "")
                 dic[key] = value
-        print(dic)
+        return(dic)
 
 def translate(dna_seq):
     s = []
@@ -79,7 +78,7 @@ def translate(dna_seq):
     for el in cod_r:
         prot.append(dna_codon.get(el, ''))      
     prot = ''.join(prot)  
-    print(prot)
+    return prot
 
 def calc_mass(prot):
     s = []
@@ -98,4 +97,4 @@ def calc_mass(prot):
     for el in prot:
         mass.append(mass_table.get(el, ''))  
     w=sum(mass)
-    print(w)
+    return w
