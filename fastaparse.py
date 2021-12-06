@@ -49,3 +49,53 @@ def parse(file_path):
                 key =key.replace(">", "")
                 dic[key] = value
         print(dic)
+
+def translate(dna_seq):
+    s = []
+    with open(dna_seq) as inp_f:
+        for line in inp_f:
+            line = line.strip()
+            line = line.replace("\\", "")
+            s.append(line)
+        res = ''.join([el for el in s])
+
+    dna_seq = res
+    n=3
+    cod = []
+    cod_r = []
+    start = "ATG"
+    stop = ("TAA", "TAG", "TGA")
+    prot = []
+    st = dna_seq.index(start)
+    cod = dna_seq[st+3:]               
+    cod = [cod[i:i+3] for i in range (0, len(cod), 3)]            
+   # Protein coded sequence        
+    for i in cod:       
+        if i not in stop:
+            cod_r.append(i)
+        else:
+            break    
+    # Replace codons by amino acides
+    for el in cod_r:
+        prot.append(dna_codon.get(el, ''))      
+    prot = ''.join(prot)  
+    print(prot)
+
+def calc_mass(prot):
+    s = []
+    with open(prot) as inp_f:
+        for line in inp_f:
+            line = line.strip()
+            line = line.replace("\\", "")
+            line = line.replace("prot =", "")
+            line = line.replace('"', '')
+            line = line.strip()
+            s.append(line)
+        res = ''.join([el for el in s])
+
+    prot = res
+    mass = []
+    for el in prot:
+        mass.append(mass_table.get(el, ''))  
+    w=sum(mass)
+    print(w)
