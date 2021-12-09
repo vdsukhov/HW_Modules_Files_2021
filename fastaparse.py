@@ -98,3 +98,56 @@ def calc_mass(prot):
         mass.append(mass_table.get(el, ''))  
     w=sum(mass)
     return w
+  
+  def translate_orf(dna_seq, init_pos=0):
+    return [dna_codon[dna_seq[pos:pos + 3]] for pos in range(init_pos, len(dna_seq) - 2, 3)]
+
+def real_prot(aa_seq):
+    cur_prot=[]
+    prots=[]
+    for aa in aa_seq:
+        if aa == '_':
+            if cur_prot:
+                for p in cur_prot:
+                    prots.append(p)
+                cur_prot=[]
+        else:
+            if aa == 'M':
+                cur_prot.append('')
+            for i in range(len(cur_prot)):
+                cur_prot[i] += aa
+    return prots
+
+
+def gen_orf(dna_seq):
+    rev_dna_seq = ''
+    for el in dna_seq[::-1]:
+        if el == "A":
+            rev_dna_seq += 'T'
+        elif rev_dna_seq == "T":
+            rev_dna_seq += 'A'
+        elif el == 'C':
+            rev_dna_seq += 'G'
+        elif el == 'G':
+            rev_dna_seq += 'C'
+    frames =[]
+    frames.append(translate_orf(dna_seq, 0))
+    frames.append(translate_orf(dna_seq, 1))
+    frames.append(translate_orf(dna_seq, 2))
+    frames.append(translate_orf(rev_dna_seq, 0))
+    frames.append(translate_orf(rev_dna_seq, 1))
+    frames.append(translate_orf(rev_dna_seq, 2))
+    return frames
+
+def orf(dna_seq, startPos=0, endPos=0):
+    if startPos > endPos:
+        rfs = gen_orf(dna_seq[startPos: endPos])
+    else:
+        rfs = gen_orf(dna_seq)
+    
+    res=[]
+    for rf in rfs:
+        proteins = real_prot(rf)
+        for p in proteins:
+            res.append(p)
+    return res
